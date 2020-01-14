@@ -70,5 +70,7 @@
     <None Include="shader\filter-3-edge.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include=".gitignore" />
+    <None Include="README.md" />
   </ItemGroup>
 </Project>

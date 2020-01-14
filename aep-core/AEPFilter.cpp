@@ -47,6 +47,11 @@ int CAEPFilter::Close()
 
 int CAEPFilter::Render(unsigned int textureIn)
 {
+	return Render(-1, textureIn);
+}
+
+int CAEPFilter::Render(float fProgress, unsigned int textureIn)
+{
 	// bind to framebuffer and draw scene as we normally would to color texture 
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 	//glEnable(GL_DEPTH_TEST);
@@ -59,6 +64,8 @@ int CAEPFilter::Render(unsigned int textureIn)
 	glBindTexture(GL_TEXTURE_2D, textureIn);
 
 	_pShader->use();
+	if (fProgress>=0)
+		_pShader->setFloat("fProgress", fProgress);
 	glBindVertexArray(_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -66,6 +73,7 @@ int CAEPFilter::Render(unsigned int textureIn)
 
 	return 0;
 }
+
 
 unsigned int CAEPFilter::makeVAO()
 {

@@ -25,6 +25,7 @@ public:
 	int Open(int width, int height);
 	int Close();
 	int Render(unsigned int textureIn);
+	int Render(float fProgress, unsigned int textureIn);
 
 	unsigned int Get_framebuffer() { return _framebuffer; }
 	unsigned int Get_textureOut() { return _textureOut; }

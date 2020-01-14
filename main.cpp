@@ -19,12 +19,8 @@ static CShader* createShader_sample();
 static void processInput(GLFWwindow* window);
 static unsigned int makeVAO();
 
-
-
-int main(int argc, char* argv[])
+int demo_filter()
 {
-	cout << "hi, aep render man!" << endl;
-
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -53,15 +49,16 @@ int main(int argc, char* argv[])
 	pShader->use();
 	pShader->setInt("texture2", 0);
 
-	CAEPFilter* pFilter = new CAEPFilter((char *)"./shader/filter-3-edge.vs", (char *)"./shader/filter-3-edge.fs");
+	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/effect-0-wave.vs", (char*)"./shader/effect-0-wave.fs");
 	ImageTexture* pIT = createImageTexture((char*)"resources/container.jpg");
 	if (pIT == NULL)
 		return -1;
 
-	pFilter->Open(pIT->_width, pIT->_height);
+	pEffect->Open(pIT->_width, pIT->_height);
 
 	// render loop
 	// -----------
+	int count1 = 0;
 	while (!glfwWindowShouldClose(window))
 	{
 		// input
@@ -69,12 +66,17 @@ int main(int argc, char* argv[])
 		processInput(window);
 
 #if 1
-		pFilter->Render(pIT->_textureID);
+		float fProcess = float(count1%1000) / 1000;
+		//fProcess = count1*10;
+		//fProcess = 0.01 * count1;
+		count1++;
+		pEffect->Render(fProcess, pIT->_textureID);
+		
 		static int count = 0;
 		cout << count++ << endl;
-//#else
-		// render
-		// ------
+		//#else
+				// render
+				// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -105,6 +107,13 @@ int main(int argc, char* argv[])
 	glfwTerminate();
 
 	return 0;
+}
+
+int main(int argc, char* argv[])
+{
+	cout << "hi, aep render man!" << endl;
+
+	demo_filter();
 
 	return 0;
 }
