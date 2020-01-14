@@ -72,5 +72,11 @@
     </None>
     <None Include=".gitignore" />
     <None Include="README.md" />
+    <None Include="shader\effect-0-wave.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\effect-0-wave.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

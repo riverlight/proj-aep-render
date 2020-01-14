@@ -28,14 +28,15 @@ int CAEPFilter::Open(int width, int height)
 	_height = _height;
 
 	_framebuffer = createFramebuffer();
-	_VAO = makeVAO();
-
+	
 	_pShader = new CShader(_szVertex, _szFragment);
 	if (_pShader == NULL)
 	{
 		cout << "new shader fail..." << endl;
 		return -2;
 	}
+	
+	_VAO = makeVAO(_pShader->getProgramID());
 
 	return 0;
 }
@@ -75,7 +76,7 @@ int CAEPFilter::Render(float fProgress, unsigned int textureIn)
 }
 
 
-unsigned int CAEPFilter::makeVAO()
+unsigned int CAEPFilter::makeVAO(unsigned int programID)
 {
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -104,14 +105,14 @@ unsigned int CAEPFilter::makeVAO()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(glGetAttribLocation(programID, "aPos"), 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(glGetAttribLocation(programID, "aPos"));
 	// color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(glGetAttribLocation(programID, "aColor"), 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(glGetAttribLocation(programID, "aColor"));
 	// texture coord attribute
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(glGetAttribLocation(programID, "aTexCoord"), 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(glGetAttribLocation(programID, "aTexCoord"));
 
 	return VAO;
 }

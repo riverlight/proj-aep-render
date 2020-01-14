@@ -20,7 +20,7 @@ public:
 	virtual ~CShader();
 
 public:
-	unsigned int _ID;
+	unsigned int getProgramID() { return _ID; }
 
 	void use();
 	// uniform¹¤¾ßº¯Êý
@@ -28,6 +28,9 @@ public:
 	void setInt(const std::string& name, int value) const;
 	void setFloat(const std::string& name, float value) const;
 	void setMat4(const std::string& name, const glm::mat4& mat) const;
+
+private:
+	unsigned int _ID;
 };
 
 

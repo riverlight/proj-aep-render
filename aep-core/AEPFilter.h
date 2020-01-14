@@ -31,7 +31,7 @@ public:
 	unsigned int Get_textureOut() { return _textureOut; }
 
 private:
-	unsigned int makeVAO();
+	unsigned int makeVAO(unsigned int programID);
 	unsigned int createFramebuffer();
 
 private:
