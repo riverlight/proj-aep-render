@@ -32,7 +32,7 @@ public:
 
 private:
 	unsigned int makeVAO(unsigned int programID);
-	unsigned int createFramebuffer();
+	unsigned int createFramebuffer(int width, int height);
 
 private:
 	unsigned int _framebuffer;

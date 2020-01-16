@@ -148,6 +148,8 @@
     <None Include="README.md" />
     <None Include="shader\effect-0-wave.fs" />
     <None Include="shader\effect-0-wave.vs" />
+    <None Include="shader\effect-1-soul.fs" />
+    <None Include="shader\effect-1-soul.vs" />
     <None Include="shader\filter-0-copy.fs" />
     <None Include="shader\filter-0-copy.vs" />
     <None Include="shader\filter-1-inversion.fs" />

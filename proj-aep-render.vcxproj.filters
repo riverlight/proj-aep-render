@@ -78,5 +78,11 @@
     <None Include="shader\effect-0-wave.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\effect-1-soul.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\effect-1-soul.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

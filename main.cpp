@@ -11,8 +11,8 @@ using namespace std;
 
 
 // settings
-static const unsigned int SCR_WIDTH = 800;
-static const unsigned int SCR_HEIGHT = 600;
+static unsigned int SCR_WIDTH = 800;
+static unsigned int SCR_HEIGHT = 600;
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 static CShader* createShader_sample();
@@ -42,19 +42,20 @@ int demo_filter()
 		return -1;
 	}
 
+	ImageTexture* pIT = createImageTexture((char*)"resources/7-enh-qua.jpg");
+	if (pIT == NULL)
+		return -1;
+
 	CShader* pShader = createShader_sample();
-	unsigned int texture = createTexture_from_image((char*)"resources/bricks2.jpg");
+	unsigned int texture = createTexture_from_image((char*)"resources/7-enh-qua.jpg");
 	unsigned int VAO = makeVAO();
 
 	pShader->use();
 	pShader->setInt("texture2", 0);
 
-	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/effect-0-wave.vs", (char*)"./shader/effect-0-wave.fs");
-	ImageTexture* pIT = createImageTexture((char*)"resources/container.jpg");
-	if (pIT == NULL)
+	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/effect-1-soul.vs", (char*)"./shader/effect-1-soul.fs");
+	if (pEffect->Open(pIT->_width, pIT->_height) != 0)
 		return -1;
-
-	pEffect->Open(pIT->_width, pIT->_height);
 
 	// render loop
 	// -----------
@@ -71,19 +72,20 @@ int demo_filter()
 		//fProcess = 0.01 * count1;
 		count1++;
 		pEffect->Render(fProcess, pIT->_textureID);
+		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 		
 		static int count = 0;
 		cout << count++ << endl;
 		//#else
 				// render
 				// ------
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.9f, 0.9f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// bind Texture
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		//glBindTexture(GL_TEXTURE_2D, pFilter->Get_textureOut());
+		glBindTexture(GL_TEXTURE_2D, pEffect->Get_textureOut());
+		//glBindTexture(GL_TEXTURE_2D, texture);
 
 		// render container
 		pShader->use();
@@ -122,12 +124,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
+	SCR_WIDTH = width;
+	SCR_HEIGHT = height;
+
+	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 }
 
 CShader* createShader_sample()
 {
-	CShader* pShader = new CShader("./shader/texture-0.vs", "./shader/texture-0.fs");
+	CShader* pShader = new CShader("./shader/filter-0-copy.vs", "./shader/filter-0-copy.fs");
 	if (pShader == NULL)
 	{
 		std::cout << "new shader fail\n";

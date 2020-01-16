@@ -25,9 +25,13 @@ CAEPFilter::~CAEPFilter()
 int CAEPFilter::Open(int width, int height)
 {
 	_width = width;
-	_height = _height;
+	_height = height;
 
-	_framebuffer = createFramebuffer();
+	_framebuffer = createFramebuffer(width, height);
+	if (_framebuffer == 0)
+	{
+		return -1;
+	}
 	
 	_pShader = new CShader(_szVertex, _szFragment);
 	if (_pShader == NULL)
@@ -55,9 +59,10 @@ int CAEPFilter::Render(float fProgress, unsigned int textureIn)
 {
 	// bind to framebuffer and draw scene as we normally would to color texture 
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+	glViewport(0, 0, _width, _height);
 	//glEnable(GL_DEPTH_TEST);
 
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// bind Texture
@@ -82,10 +87,10 @@ unsigned int CAEPFilter::makeVAO(unsigned int programID)
 	// ------------------------------------------------------------------
 	float vertices[] = {
 		// positions          // colors           // texture coords
-		 1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-		 1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-		-1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+		 1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0 - 1.0f, // top right
+		 1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0 - 0.0f, // bottom right
+		-1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0 - 0.0f, // bottom left
+		-1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0 - 1.0f  // top left 
 	};
 	unsigned int indices[] = {
 		0, 1, 3, // first triangle
@@ -117,7 +122,7 @@ unsigned int CAEPFilter::makeVAO(unsigned int programID)
 	return VAO;
 }
 
-unsigned int CAEPFilter::createFramebuffer()
+unsigned int CAEPFilter::createFramebuffer(int width, int height)
 {
 	unsigned int framebuffer;
 	glGenFramebuffers(1, &framebuffer);
@@ -126,7 +131,7 @@ unsigned int CAEPFilter::createFramebuffer()
 	// create a color attachment texture
 	glGenTextures(1, &_textureOut);
 	glBindTexture(GL_TEXTURE_2D, _textureOut);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _textureOut, 0);
@@ -135,11 +140,16 @@ unsigned int CAEPFilter::createFramebuffer()
 	unsigned int rbo;
 	glGenRenderbuffers(1, &rbo);
 	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _width, _height); // use a single renderbuffer object for both a depth AND stencil buffer.
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height); // use a single renderbuffer object for both a depth AND stencil buffer.
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
 		cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
+		cout << glCheckFramebufferStatus(GL_FRAMEBUFFER) << endl;
+		return 0;
+	}
+		
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return framebuffer;
