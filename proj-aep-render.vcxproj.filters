@@ -84,5 +84,11 @@
     <None Include="shader\effect-1-soul.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\filter-color.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\filter-color.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

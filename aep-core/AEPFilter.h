@@ -14,11 +14,18 @@
 using namespace std;
 
 
+typedef enum FILTERMODE_e
+{
+	FM_Filter = 0, 
+	FM_Effect, 
+	FM_Color, 
+	FM_NUMBER
+} FILTERMODE;
 
 class CAEPFilter
 {
 public:
-	CAEPFilter(char *szVertex, char *szFragment);
+	CAEPFilter(char *szVertex, char *szFragment, FILTERMODE mode= FM_Filter);
 	virtual ~CAEPFilter();
 
 public:
@@ -27,6 +34,7 @@ public:
 	int Render(unsigned int textureIn);
 	int Render(float fProgress, unsigned int textureIn);
 
+	void Set_ColorMap(unsigned int textureColorMap) { _textureColorMap = textureColorMap; }
 	unsigned int Get_framebuffer() { return _framebuffer; }
 	unsigned int Get_textureOut() { return _textureOut; }
 
@@ -37,10 +45,12 @@ private:
 private:
 	unsigned int _framebuffer;
 	unsigned int _textureOut, _textureIn;
+	unsigned int _textureColorMap;
 	unsigned int _VAO;
 
 	CShader* _pShader;
 	char* _szVertex, * _szFragment;
+	FILTERMODE _mode;
 
 	int _width, _height;
 };

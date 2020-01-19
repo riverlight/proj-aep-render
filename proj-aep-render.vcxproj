@@ -158,6 +158,8 @@
     <None Include="shader\filter-2-sharpen.vs" />
     <None Include="shader\filter-3-edge.fs" />
     <None Include="shader\filter-3-edge.vs" />
+    <None Include="shader\filter-color.fs" />
+    <None Include="shader\filter-color.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

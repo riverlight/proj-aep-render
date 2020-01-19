@@ -53,9 +53,12 @@ int demo_filter()
 	pShader->use();
 	pShader->setInt("texture2", 0);
 
-	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/effect-1-soul.vs", (char*)"./shader/effect-1-soul.fs");
+	unsigned int textureColorMap = createTexture_from_image((char*)"resources/filterColor/industry.png");
+	//CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/effect-1-soul.vs", (char*)"./shader/effect-1-soul.fs");
+	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/filter-color.vs", (char*)"./shader/filter-color.fs", FM_Color);
 	if (pEffect->Open(pIT->_width, pIT->_height) != 0)
 		return -1;
+	pEffect->Set_ColorMap(textureColorMap);
 
 	// render loop
 	// -----------
@@ -75,7 +78,7 @@ int demo_filter()
 		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 		
 		static int count = 0;
-		cout << count++ << endl;
+		//cout << count++ << endl;
 		//#else
 				// render
 				// ------

@@ -3,18 +3,21 @@
 
 
 
-CAEPFilter::CAEPFilter(char* szVertex, char* szFragment)
+CAEPFilter::CAEPFilter(char* szVertex, char* szFragment, FILTERMODE mode)
 {
+	_mode = mode;
 	_szVertex = szVertex;
 	_szFragment = szFragment;
 
-	_framebuffer = -1;
-	_textureOut = -1;
-	_textureIn = -1;
+	_framebuffer = 0;
+	_textureOut = 0;
+	_textureIn = 0;
 	_VAO = -1;
 	_pShader = NULL;
 	_width = 0;
 	_height = 0;
+
+	_textureColorMap = 0;
 }
 
 CAEPFilter::~CAEPFilter()
@@ -38,6 +41,17 @@ int CAEPFilter::Open(int width, int height)
 	{
 		cout << "new shader fail..." << endl;
 		return -2;
+	}
+	
+	_pShader->use();
+	switch (_mode)
+	{
+	case FM_Color:
+		_pShader->setInt("textIn", 0);
+		_pShader->setInt("textColorMap", 1);
+		break;
+	default:
+		_pShader->setInt("texture1", 0);
 	}
 	
 	_VAO = makeVAO(_pShader->getProgramID());
@@ -66,8 +80,18 @@ int CAEPFilter::Render(float fProgress, unsigned int textureIn)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// bind Texture
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureIn);
+	switch (_mode)
+	{
+	case FM_Color:
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureIn);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, _textureColorMap);
+		break;
+	default:
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureIn);
+	}
 
 	_pShader->use();
 	if (fProgress>=0)
@@ -79,7 +103,6 @@ int CAEPFilter::Render(float fProgress, unsigned int textureIn)
 
 	return 0;
 }
-
 
 unsigned int CAEPFilter::makeVAO(unsigned int programID)
 {
