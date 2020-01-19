@@ -18,6 +18,7 @@ CAEPFilter::CAEPFilter(char* szVertex, char* szFragment, FILTERMODE mode)
 	_height = 0;
 
 	_textureColorMap = 0;
+	_textureTarget = 0;
 }
 
 CAEPFilter::~CAEPFilter()
@@ -49,6 +50,10 @@ int CAEPFilter::Open(int width, int height)
 	case FM_Color:
 		_pShader->setInt("textIn", 0);
 		_pShader->setInt("textColorMap", 1);
+		break;
+	case FM_Transition:
+		_pShader->setInt("sourceTex", 0);
+		_pShader->setInt("targetTex", 1);
 		break;
 	default:
 		_pShader->setInt("texture1", 0);
@@ -87,6 +92,12 @@ int CAEPFilter::Render(float fProgress, unsigned int textureIn)
 		glBindTexture(GL_TEXTURE_2D, textureIn);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, _textureColorMap);
+		break;
+	case FM_Transition:
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureIn);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, _textureTarget);
 		break;
 	default:
 		glActiveTexture(GL_TEXTURE0);

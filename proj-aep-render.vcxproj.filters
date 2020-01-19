@@ -90,5 +90,11 @@
     <None Include="shader\filter-color.vs">
       <Filter>shader</Filter>
     </None>
+    <None Include="shader\transition_turnpage.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\transition_turnpage.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

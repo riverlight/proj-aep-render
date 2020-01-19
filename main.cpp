@@ -54,11 +54,13 @@ int demo_filter()
 	pShader->setInt("texture2", 0);
 
 	unsigned int textureColorMap = createTexture_from_image((char*)"resources/filterColor/industry.png");
+	unsigned int textureTarget = createTexture_from_image((char*)"resources/he-base.jpg");
 	//CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/effect-1-soul.vs", (char*)"./shader/effect-1-soul.fs");
-	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/filter-color.vs", (char*)"./shader/filter-color.fs", FM_Color);
+	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/transition_turnpage.vs", (char*)"./shader/transition_turnpage.fs", FM_Transition);
 	if (pEffect->Open(pIT->_width, pIT->_height) != 0)
 		return -1;
-	pEffect->Set_ColorMap(textureColorMap);
+	//pEffect->Set_ColorMap(textureColorMap);
+	pEffect->Set_TransitionTarget(textureTarget);
 
 	// render loop
 	// -----------

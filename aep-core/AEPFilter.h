@@ -19,6 +19,7 @@ typedef enum FILTERMODE_e
 	FM_Filter = 0, 
 	FM_Effect, 
 	FM_Color, 
+	FM_Transition, 
 	FM_NUMBER
 } FILTERMODE;
 
@@ -35,6 +36,7 @@ public:
 	int Render(float fProgress, unsigned int textureIn);
 
 	void Set_ColorMap(unsigned int textureColorMap) { _textureColorMap = textureColorMap; }
+	void Set_TransitionTarget(unsigned int textureTarget) { _textureTarget = textureTarget;  }
 	unsigned int Get_framebuffer() { return _framebuffer; }
 	unsigned int Get_textureOut() { return _textureOut; }
 
@@ -46,6 +48,7 @@ private:
 	unsigned int _framebuffer;
 	unsigned int _textureOut, _textureIn;
 	unsigned int _textureColorMap;
+	unsigned int _textureTarget;
 	unsigned int _VAO;
 
 	CShader* _pShader;

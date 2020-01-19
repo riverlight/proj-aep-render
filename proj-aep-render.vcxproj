@@ -160,6 +160,8 @@
     <None Include="shader\filter-3-edge.vs" />
     <None Include="shader\filter-color.fs" />
     <None Include="shader\filter-color.vs" />
+    <None Include="shader\transition_turnpage.fs" />
+    <None Include="shader\transition_turnpage.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
