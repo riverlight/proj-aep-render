@@ -6,6 +6,7 @@
 #include "aep-core/shader.h"
 #include "aep-core/gl_aux.h"
 #include "aep-core/AEPFilter.h"
+#include "aep-core/AEPComposer.h"
 
 using namespace std;
 
@@ -51,7 +52,7 @@ int demo_filter()
 	unsigned int VAO = makeVAO();
 
 	pShader->use();
-	pShader->setInt("texture2", 0);
+	pShader->setInt("texture1", 0);
 
 	unsigned int textureColorMap = createTexture_from_image((char*)"resources/filterColor/industry.png");
 	unsigned int textureTarget = createTexture_from_image((char*)"resources/he-base.jpg");
@@ -116,11 +117,115 @@ int demo_filter()
 	return 0;
 }
 
+void set_desc_default(LayerDesc* pDesc)
+{
+	pDesc->_nStartTime_ms = 0;
+	pDesc->_nEndTime_ms = 100 * 1000;
+	pDesc->_szImageName = (char *)"resources/he-base.jpg";
+}
+
+int demo_composer()
+{
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "COMPOSER", NULL, NULL);
+	if (window == NULL)
+	{
+		std::cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return -1;
+	}
+
+	ImageTexture* pIT = createImageTexture((char*)"resources/7-enh-qua.jpg");
+	if (pIT == NULL)
+		return -1;
+
+	CShader* pShader = createShader_sample();
+	unsigned int texture = createTexture_from_image((char*)"resources/7-enh-qua.jpg");
+	unsigned int VAO = makeVAO();
+
+	pShader->use();
+	pShader->setInt("texture1", 0);
+
+	CAEPComposer* pComposer = new CAEPComposer();
+	pComposer->Open(SCR_WIDTH, SCR_HEIGHT);
+	CAEPLayer* pLayer = new CAEPLayer();
+	LayerDesc desc;
+	set_desc_default(&desc);
+	pLayer->Open(&desc);
+	pComposer->Add_Layer(pLayer);
+
+	// render loop
+	// -----------
+	int count1 = 0;
+	while (!glfwWindowShouldClose(window))
+	{
+		// input
+		// -----
+		processInput(window);
+
+#if 1
+		float fProcess = float(count1 % 1000) / 1000;
+		//fProcess = count1*10;
+		//fProcess = 0.01 * count1;
+		count1++;
+		pComposer->Render(count1);
+		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+
+		static int count = 0;
+		//cout << count++ << endl;
+		//#else
+				// render
+				// ------
+		glClearColor(0.9f, 0.9f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		// bind Texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, pComposer->Get_textureOut());
+		//glBindTexture(GL_TEXTURE_2D, texture);
+
+		// render container
+		pShader->use();
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+#endif
+		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+		// -------------------------------------------------------------------------------
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
+	// optional: de-allocate all resources once they've outlived their purpose:
+	// ------------------------------------------------------------------------
+	glDeleteVertexArrays(1, &VAO);
+	//glDeleteBuffers(1, &VBO);
+	//glDeleteBuffers(1, &EBO);
+
+	// glfw: terminate, clearing all previously allocated GLFW resources.
+	// ------------------------------------------------------------------
+	glfwTerminate();
+
+	return 0;
+}
+
 int main(int argc, char* argv[])
 {
 	cout << "hi, aep render man!" << endl;
 
-	demo_filter();
+	//demo_filter();
+	demo_composer();
 
 	return 0;
 }

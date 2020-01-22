@@ -133,13 +133,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="aep-core\AEPComposer.cpp" />
     <ClCompile Include="aep-core\AEPFilter.cpp" />
+    <ClCompile Include="aep-core\AEPLayer.cpp" />
     <ClCompile Include="aep-core\gl_aux.cpp" />
     <ClCompile Include="aep-core\shader.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="aep-core\AEPComposer.h" />
     <ClInclude Include="aep-core\AEPFilter.h" />
+    <ClInclude Include="aep-core\AEPLayer.h" />
     <ClInclude Include="aep-core\gl_aux.h" />
     <ClInclude Include="aep-core\shader.h" />
   </ItemGroup>

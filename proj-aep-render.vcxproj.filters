@@ -33,6 +33,12 @@
     <ClCompile Include="aep-core\AEPFilter.cpp">
       <Filter>AEP-CORE</Filter>
     </ClCompile>
+    <ClCompile Include="aep-core\AEPLayer.cpp">
+      <Filter>AEP-CORE</Filter>
+    </ClCompile>
+    <ClCompile Include="aep-core\AEPComposer.cpp">
+      <Filter>AEP-CORE</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aep-core\gl_aux.h">
@@ -42,6 +48,12 @@
       <Filter>AEP-CORE</Filter>
     </ClInclude>
     <ClInclude Include="aep-core\AEPFilter.h">
+      <Filter>AEP-CORE</Filter>
+    </ClInclude>
+    <ClInclude Include="aep-core\AEPLayer.h">
+      <Filter>AEP-CORE</Filter>
+    </ClInclude>
+    <ClInclude Include="aep-core\AEPComposer.h">
       <Filter>AEP-CORE</Filter>
     </ClInclude>
   </ItemGroup>
