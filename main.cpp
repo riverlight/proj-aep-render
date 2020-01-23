@@ -121,7 +121,20 @@ void set_desc_default(LayerDesc* pDesc)
 {
 	pDesc->_nStartTime_ms = 0;
 	pDesc->_nEndTime_ms = 100 * 1000;
+	pDesc->_fStartRotateAngle = 0;
+	pDesc->_fEndRotateAngle = 360*2;
+	pDesc->_vecStartPos[0].x = 0.0;
+	pDesc->_vecStartPos[0].y = 0.0;
+	pDesc->_vecStartPos[1].x = 1.0;
+	pDesc->_vecStartPos[1].y = 1.0;
+	pDesc->_vecEndPos[0].x = 0.5;
+	pDesc->_vecEndPos[0].y = 0.5;
+	pDesc->_vecEndPos[1].x = 1.0;
+	pDesc->_vecEndPos[1].y = 1.0;
 	pDesc->_szImageName = (char *)"resources/he-base.jpg";
+	pDesc->_eEffectType = ET_TRANSITION;
+	//pDesc->_eEffectType = ET_NONE;
+	pDesc->_szTransitionTarget = (char*)"resources/7-enh-qua.jpg";
 }
 
 int demo_composer()
@@ -160,7 +173,7 @@ int demo_composer()
 
 	CAEPComposer* pComposer = new CAEPComposer();
 	pComposer->Open(SCR_WIDTH, SCR_HEIGHT);
-	CAEPLayer* pLayer = new CAEPLayer();
+	CAEPLayer* pLayer = new CAEPLayer(pComposer);
 	LayerDesc desc;
 	set_desc_default(&desc);
 	pLayer->Open(&desc);
@@ -180,7 +193,7 @@ int demo_composer()
 		//fProcess = count1*10;
 		//fProcess = 0.01 * count1;
 		count1++;
-		pComposer->Render(count1);
+		pComposer->Render(count1*4);
 		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
 		static int count = 0;

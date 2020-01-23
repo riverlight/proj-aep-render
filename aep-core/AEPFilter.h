@@ -32,8 +32,8 @@ public:
 public:
 	int Open(int width, int height);
 	int Close();
-	int Render(unsigned int textureIn);
-	int Render(float fProgress, unsigned int textureIn);
+	int Render(unsigned int textureIn, unsigned int nLastFrameBuffer=0);
+	int Render(float fProgress, unsigned int textureIn, unsigned int nLastFrameBuffer = 0);
 
 	void Set_ColorMap(unsigned int textureColorMap) { _textureColorMap = textureColorMap; }
 	void Set_TransitionTarget(unsigned int textureTarget) { _textureTarget = textureTarget;  }

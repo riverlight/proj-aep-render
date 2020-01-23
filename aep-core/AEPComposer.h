@@ -12,6 +12,8 @@ using namespace std;
 #define AEP_OUT
 #endif // AEP_IN
 
+class CAEPLayer;
+
 class CAEPComposer
 {
 public:

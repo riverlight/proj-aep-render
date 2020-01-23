@@ -1,3 +1,6 @@
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/type_ptr.hpp>
 #include "AEPComposer.h"
 
 
@@ -71,9 +74,26 @@ int CAEPComposer::Render(int nTimeStamp_ms)
 	{
 		if (nTimeStamp_ms<_vpLayer[i]->_pDesc->_nStartTime_ms || nTimeStamp_ms>_vpLayer[i]->_pDesc->_nEndTime_ms)
 			continue;
+		unsigned int text0 = _vpLayer[i]->Get_Texture(nTimeStamp_ms);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, _vpLayer[i]->Get_Texture());
+		glBindTexture(GL_TEXTURE_2D, text0);
+		glViewport(0, 0, _nWidth, _nHeight);
 		_vpShader[i]->use();
+		glm::mat4 uniPositionMat = glm::mat4(1.0);
+		
+
+		float fRotate = _vpLayer[i]->Get_RotateAngle(nTimeStamp_ms);
+		vec2 centerPoint_gl = _vpLayer[i]->Get_CenterPoint_gl(nTimeStamp_ms);
+		//cout << "rotate : " << fRotate << endl;
+		//cout << "progress : " << _vpLayer[i]->Get_Progress(nTimeStamp_ms) << endl;
+		//cout << centerPoint_gl.x << "  " << centerPoint_gl.y << endl;
+		//cout << _vpLayer[i]->Get_Scale(nTimeStamp_ms).x << "  " << _vpLayer[i]->Get_Scale(nTimeStamp_ms).y << endl;
+		uniPositionMat = glm::translate(uniPositionMat, glm::vec3(centerPoint_gl, 0.0f));
+		uniPositionMat = glm::rotate(uniPositionMat, glm::radians(fRotate), glm::vec3(0.0, 0.0, 1.0));
+		glm::vec3 vec3Scale = glm::vec3(_vpLayer[i]->Get_Scale(nTimeStamp_ms), 0.0);
+		uniPositionMat = glm::scale(uniPositionMat, vec3Scale);
+		
+		_vpShader[i]->setMat4("uniPositionMat", uniPositionMat);
 		glBindVertexArray(_vnVAO[i]);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	}

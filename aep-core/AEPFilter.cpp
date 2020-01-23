@@ -69,12 +69,12 @@ int CAEPFilter::Close()
 	return 0;
 }
 
-int CAEPFilter::Render(unsigned int textureIn)
+int CAEPFilter::Render(unsigned int textureIn, unsigned int nLastFrameBuffer)
 {
-	return Render(-1, textureIn);
+	return Render(-1, textureIn, nLastFrameBuffer);
 }
 
-int CAEPFilter::Render(float fProgress, unsigned int textureIn)
+int CAEPFilter::Render(float fProgress, unsigned int textureIn, unsigned int nLastFrameBuffer)
 {
 	// bind to framebuffer and draw scene as we normally would to color texture 
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
@@ -110,7 +110,7 @@ int CAEPFilter::Render(float fProgress, unsigned int textureIn)
 	glBindVertexArray(_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, nLastFrameBuffer);
 
 	return 0;
 }

@@ -146,10 +146,35 @@
     <ClInclude Include="aep-core\AEPLayer.h" />
     <ClInclude Include="aep-core\gl_aux.h" />
     <ClInclude Include="aep-core\shader.h" />
+    <ClInclude Include="include\glm\common.hpp" />
+    <ClInclude Include="include\glm\exponential.hpp" />
+    <ClInclude Include="include\glm\ext.hpp" />
+    <ClInclude Include="include\glm\fwd.hpp" />
+    <ClInclude Include="include\glm\geometric.hpp" />
+    <ClInclude Include="include\glm\glm.hpp" />
+    <ClInclude Include="include\glm\integer.hpp" />
+    <ClInclude Include="include\glm\mat2x2.hpp" />
+    <ClInclude Include="include\glm\mat2x3.hpp" />
+    <ClInclude Include="include\glm\mat2x4.hpp" />
+    <ClInclude Include="include\glm\mat3x2.hpp" />
+    <ClInclude Include="include\glm\mat3x3.hpp" />
+    <ClInclude Include="include\glm\mat3x4.hpp" />
+    <ClInclude Include="include\glm\mat4x2.hpp" />
+    <ClInclude Include="include\glm\mat4x3.hpp" />
+    <ClInclude Include="include\glm\mat4x4.hpp" />
+    <ClInclude Include="include\glm\matrix.hpp" />
+    <ClInclude Include="include\glm\packing.hpp" />
+    <ClInclude Include="include\glm\trigonometric.hpp" />
+    <ClInclude Include="include\glm\vec2.hpp" />
+    <ClInclude Include="include\glm\vec3.hpp" />
+    <ClInclude Include="include\glm\vec4.hpp" />
+    <ClInclude Include="include\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
+    <None Include="shader\compose.fs" />
+    <None Include="shader\compose.vs" />
     <None Include="shader\effect-0-wave.fs" />
     <None Include="shader\effect-0-wave.vs" />
     <None Include="shader\effect-1-soul.fs" />

@@ -19,6 +19,9 @@
     <Filter Include="shader">
       <UniqueIdentifier>{432cb55e-058c-4e1e-898e-a1f48c2dd3e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\glm">
+      <UniqueIdentifier>{059205f9-7aa4-4045-8464-e7acc37daae3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,6 +58,75 @@
     </ClInclude>
     <ClInclude Include="aep-core\AEPComposer.h">
       <Filter>AEP-CORE</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\common.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\exponential.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\ext.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\fwd.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\geometric.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\glm.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\integer.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat2x2.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat2x3.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat2x4.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat3x2.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat3x3.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat3x4.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat4x2.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat4x3.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\mat4x4.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\matrix.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\packing.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\trigonometric.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\vec2.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\vec3.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\vec4.hpp">
+      <Filter>头文件\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glm\vector_relational.hpp">
+      <Filter>头文件\glm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +178,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="shader\transition_turnpage.vs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\compose.fs">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shader\compose.vs">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
