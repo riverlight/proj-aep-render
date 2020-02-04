@@ -29,11 +29,21 @@ int CAEPComposer::Open(int width, int height)
 	if (Create_FrameBuffer(_nWidth, _nHeight, _nFrameBuffer, _nTextureOut) != 0)
 		return -1;
 
+	_pShader = new CShader(_szVertex, _szFragment);
+	if (_pShader == NULL)
+		return -1;
+	_pShader->use();
+	_pShader->setInt("texture1", 0);
+
+	if (Make_VAO(_pShader->getProgramID(), _nVAO) != 0)
+		return -1;
+
 	return 0;
 }
 
 int CAEPComposer::Close()
 {
+	delete _pShader;
 
 	return 0;
 }
@@ -44,18 +54,6 @@ int CAEPComposer::Add_Layer(CAEPLayer* pLayer)
 		return -1;
 
 	_vpLayer.push_back(pLayer);
-
-	CShader* pShader = new CShader(_szVertex, _szFragment);
-	if (pShader == NULL)
-		return -1;
-	pShader->use();
-	pShader->setInt("texture1", 0);
-	_vpShader.push_back(pShader);
-
-	unsigned int nVAO;
-	if (Make_VAO(pShader->getProgramID(), nVAO) != 0)
-		return -1;
-	_vnVAO.push_back(nVAO);
 	
 	_nLayerCount++;
 
@@ -78,9 +76,8 @@ int CAEPComposer::Render(int nTimeStamp_ms)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, text0);
 		glViewport(0, 0, _nWidth, _nHeight);
-		_vpShader[i]->use();
+		_pShader->use();
 		glm::mat4 uniPositionMat = glm::mat4(1.0);
-		
 
 		float fRotate = _vpLayer[i]->Get_RotateAngle(nTimeStamp_ms);
 		vec2 centerPoint_gl = _vpLayer[i]->Get_CenterPoint_gl(nTimeStamp_ms);
@@ -93,8 +90,8 @@ int CAEPComposer::Render(int nTimeStamp_ms)
 		glm::vec3 vec3Scale = glm::vec3(_vpLayer[i]->Get_Scale(nTimeStamp_ms), 0.0);
 		uniPositionMat = glm::scale(uniPositionMat, vec3Scale);
 		
-		_vpShader[i]->setMat4("uniPositionMat", uniPositionMat);
-		glBindVertexArray(_vnVAO[i]);
+		_pShader->setMat4("uniPositionMat", uniPositionMat);
+		glBindVertexArray(_nVAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	}
 

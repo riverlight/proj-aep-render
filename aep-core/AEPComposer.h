@@ -38,8 +38,8 @@ private:
 
 private:
 	vector<CAEPLayer*> _vpLayer;
-	vector<CShader*> _vpShader;
-	vector<unsigned int> _vnVAO;
+	CShader* _pShader;
+	unsigned int _nVAO;
 	int _nLayerCount;
 
 	const char* _szVertex, * _szFragment;
