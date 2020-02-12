@@ -6,7 +6,7 @@ varying vec3 ourColor;
 
 uniform sampler2D sourceTex;                                            
 uniform sampler2D targetTex;                                            
-uniform float fProgress;                                                     
+uniform float fProgress;
 const float MIN_AMOUNT = -0.16;                                         
 const float MAX_AMOUNT = 1.3;                                           
 float amount = fProgress * (MAX_AMOUNT - MIN_AMOUNT) + MIN_AMOUNT;           
@@ -131,5 +131,5 @@ void main(void) {
     color = antiAlias(color, otherColor, cylinderRadius - abs(yc));     
     vec4 cl = seeThroughWithShadow(yc, varTexcoord, point, rotation, rrotation);  
     float dist = distanceToEdge(point);                                 
-    gl_FragColor = clamp(antiAlias(color, cl, dist),0.0,1.0);           
+    gl_FragColor = clamp(antiAlias(color, cl, dist),0.0, 1.0);
 }

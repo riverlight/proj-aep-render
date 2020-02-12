@@ -91,6 +91,7 @@ int CAEPComposer::Render(int nTimeStamp_ms)
 		uniPositionMat = glm::scale(uniPositionMat, vec3Scale);
 		
 		_pShader->setMat4("uniPositionMat", uniPositionMat);
+		_pShader->setFloat("fAlpha", _vpLayer[i]->Get_Alpha(nTimeStamp_ms));
 		glBindVertexArray(_nVAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	}
@@ -110,7 +111,7 @@ int CAEPComposer::Create_FrameBuffer(AEP_IN int width, AEP_IN int height, AEP_OU
 	unsigned int textureOut;
 	glGenTextures(1, &textureOut);
 	glBindTexture(GL_TEXTURE_2D, textureOut);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureOut, 0);

@@ -42,6 +42,8 @@ int demo_filter()
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	ImageTexture* pIT = createImageTexture((char*)"resources/7-enh-qua.jpg");
 	if (pIT == NULL)
@@ -56,8 +58,8 @@ int demo_filter()
 
 	unsigned int textureColorMap = createTexture_from_image((char*)"resources/filterColor/industry.png");
 	unsigned int textureTarget = createTexture_from_image((char*)"resources/he-base.jpg");
-	//CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/effect-1-soul.vs", (char*)"./shader/effect-1-soul.fs");
-	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/transition_turnpage.vs", (char*)"./shader/transition_turnpage.fs", FM_Transition);
+	CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/filter-0-copy.vs", (char*)"./shader/filter-0-copy.fs");
+	//CAEPFilter* pEffect = new CAEPFilter((char*)"./shader/transition_turnpage.vs", (char*)"./shader/transition_turnpage.fs", FM_Transition);
 	if (pEffect->Open(pIT->_width, pIT->_height) != 0)
 		return -1;
 	//pEffect->Set_ColorMap(textureColorMap);
@@ -133,6 +135,8 @@ void set_desc_default(LayerDesc* pDesc, int index)
 		pDesc->_vecEndPos[0].y = 0.5;
 		pDesc->_vecEndPos[1].x = 1.0;
 		pDesc->_vecEndPos[1].y = 1.0;
+		pDesc->_fStartAlpha = 0;
+		pDesc->_fEndAlpha = 1.0;
 	}
 	else
 	{
@@ -140,6 +144,8 @@ void set_desc_default(LayerDesc* pDesc, int index)
 		pDesc->_vecEndPos[0].y = 0.1;
 		pDesc->_vecEndPos[1].x = 0.3;
 		pDesc->_vecEndPos[1].y = 0.3;
+		pDesc->_fStartAlpha = 1.0;
+		pDesc->_fEndAlpha = 0.0;
 	}
 	
 	pDesc->_szImageName = (char *)"resources/he-base.jpg";
@@ -170,6 +176,8 @@ int demo_composer()
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	ImageTexture* pIT = createImageTexture((char*)"resources/7-enh-qua.jpg");
 	if (pIT == NULL)

@@ -31,6 +31,7 @@ typedef struct LayerDesc_s
 	int _nStartTime_ms, _nEndTime_ms;
 	vec2 _vecStartPos[2], _vecEndPos[2]; // 左上角坐标为 (0, 0)，这个和opengl的坐标是不一样的
 	float _fStartRotateAngle, _fEndRotateAngle; // 360度表示回到原点
+	float _fStartAlpha, _fEndAlpha;
 	char* _szImageName;
 	EFFECT_TYPE _eEffectType;
 	char* _szTransitionTarget;
@@ -52,6 +53,7 @@ public:
 	vec2 Get_CenterPoint_gl(int nTimeStamp_ms); // gl的坐标体系，即图像中间坐标为 (0, 0)
 	vec2 Get_Scale(int nTimeStamp_ms);
 	float Get_Progress(int nTimeStamp_ms);
+	float Get_Alpha(int nTimeStamp_ms);
 
 	int Get_Texture(int nTimeStamp_ms);
 
@@ -64,8 +66,6 @@ private:
 	ImageTexture* _pImageTexture;
 	ImageTexture* _pTransitionTargetTexture;
 	CAEPFilter* _pEffect;
-
-
 };
 
 #endif // AEPLAYER_H

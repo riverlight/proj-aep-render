@@ -59,6 +59,14 @@ float CAEPLayer::Get_Progress(int nTimeStamp_ms)
 	return fProgress;
 }
 
+float CAEPLayer::Get_Alpha(int nTimeStamp_ms)
+{
+	float fProgress = Get_Progress(nTimeStamp_ms);
+	float fAlpha;
+	fAlpha = _pDesc->_fStartAlpha + fProgress * (_pDesc->_fEndAlpha - _pDesc->_fStartAlpha);
+	return fAlpha;
+}
+
 float CAEPLayer::Get_RotateAngle(int nTimeStamp_ms)
 {
 	float fProgress = Get_Progress(nTimeStamp_ms);
@@ -111,7 +119,6 @@ int CAEPLayer::Get_Texture(int nTimeStamp_ms)
 		float fProgress = Get_Progress(nTimeStamp_ms);
 		_pEffect->Render(fProgress, _pImageTexture->_textureID, _pComposer->Get_framebuffer());
 		return _pEffect->Get_textureOut();
-		//return _pTransitionTargetTexture->_textureID;
 	} else
 		return _pImageTexture->_textureID;
 }
